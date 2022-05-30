@@ -1,0 +1,296 @@
+0 Antártida Argentina
+1 Avenida 1
+2 Avenida 122
+3 Avenida 13
+4 Avenida 137
+5 Avenida 143
+6 Avenida 19
+7 Avenida 25
+8 Avenida 31
+9 Avenida 32
+10 Avenida 38
+11 Avenida 44
+12 Avenida 51
+13 Avenida 52
+14 Avenida 520
+15 Avenida 526
+16 Avenida 53
+17 Avenida 60
+18 Avenida 66
+19 Avenida 7
+20 Avenida 72
+21 Avenida Antártida Argentina
+22 Avenida Centenario
+23 Avenida Iraola
+24 Avenida del Petróleo Argentino
+25 Bicisenda
+26 Bicisenda Avenida 60
+27 Bicisenda Diagonal 73
+28 Bicisenda Plaza Moreno
+29 Bicisenda Plaza San Martín
+30 Boulevard 120
+31 Boulevard 81
+32 Boulevard 82
+33 Boulevard 83
+34 Boulevard 84
+35 Calle 1
+36 Calle 1 Bis
+37 Calle 10
+38 Calle 11
+39 Calle 115
+40 Calle 115 Bis
+41 Calle 116
+42 Calle 117
+43 Calle 118
+44 Calle 119
+45 Calle 12
+46 Calle 12 Bis
+47 Calle 120
+48 Calle 121
+49 Calle 122 Bis
+50 Calle 122N
+51 Calle 123
+52 Calle 123 Bis
+53 Calle 124
+54 Calle 124 Bis
+55 Calle 125
+56 Calle 126
+57 Calle 127
+58 Calle 128
+59 Calle 129
+60 Calle 13
+61 Calle 13 Bis
+62 Calle 130
+63 Calle 131
+64 Calle 132
+65 Calle 133
+66 Calle 133 Bis
+67 Calle 134
+68 Calle 134 Bis
+69 Calle 135
+70 Calle 136
+71 Calle 136 Bis
+72 Calle 138
+73 Calle 139
+74 Calle 14
+75 Calle 14 Bis
+76 Calle 140
+77 Calle 141
+78 Calle 141 Bis
+79 Calle 142
+80 Calle 144
+81 Calle 145
+82 Calle 15
+83 Calle 15 Bis
+84 Calle 16
+85 Calle 16 Bis
+86 Calle 17
+87 Calle 18
+88 Calle 19
+89 Calle 2
+90 Calle 2 Bis
+91 Calle 20
+92 Calle 21
+93 Calle 22
+94 Calle 23
+95 Calle 23 Bis
+96 Calle 24
+97 Calle 24 Bis
+98 Calle 26
+99 Calle 27
+100 Calle 28
+101 Calle 29
+102 Calle 3
+103 Calle 30
+104 Calle 33
+105 Calle 34
+106 Calle 35
+107 Calle 36
+108 Calle 37
+109 Calle 38
+110 Calle 39
+111 Calle 4
+112 Calle 4 Bis
+113 Calle 40
+114 Calle 41
+115 Calle 42
+116 Calle 42 Bis
+117 Calle 43
+118 Calle 43 Bis
+119 Calle 44
+120 Calle 45
+121 Calle 46
+122 Calle 47
+123 Calle 48
+124 Calle 48 Bis
+125 Calle 49
+126 Calle 49 Bis
+127 Calle 5
+128 Calle 50
+129 Calle 50 Bis
+130 Calle 51
+131 Calle 517
+132 Calle 518
+133 Calle 519
+134 Calle 52
+135 Calle 520
+136 Calle 520 Bis
+137 Calle 521
+138 Calle 521 Bis
+139 Calle 522
+140 Calle 522 Bis
+141 Calle 523
+142 Calle 523 Bis
+143 Calle 524
+144 Calle 524 Bis
+145 Calle 525
+146 Calle 525 Bis
+147 Calle 526
+148 Calle 526 Bis
+149 Calle 527
+150 Calle 528
+151 Calle 528 Bis
+152 Calle 529
+153 Calle 530
+154 Calle 531
+155 Calle 531 Bis
+156 Calle 54
+157 Calle 55
+158 Calle 56
+159 Calle 57
+160 Calle 57 Bis
+161 Calle 58
+162 Calle 59
+163 Calle 6
+164 Calle 6 Bis
+165 Calle 61
+166 Calle 62
+167 Calle 63
+168 Calle 64
+169 Calle 65
+170 Calle 66 Bis
+171 Calle 67
+172 Calle 68
+173 Calle 68 Bis
+174 Calle 69
+175 Calle 7
+176 Calle 70
+177 Calle 71
+178 Calle 71 Bis
+179 Calle 72 Bis
+180 Calle 73
+181 Calle 74
+182 Calle 75
+183 Calle 76
+184 Calle 76 Bis
+185 Calle 77
+186 Calle 77 Bis
+187 Calle 78
+188 Calle 78 A
+189 Calle 78 B
+190 Calle 78 Bis
+191 Calle 78 C
+192 Calle 78 D
+193 Calle 78 E
+194 Calle 78 F
+195 Calle 79
+196 Calle 79B
+197 Calle 8
+198 Calle 8 Bis
+199 Calle 80
+200 Calle 80 Bis
+201 Calle 81
+202 Calle 81 A
+203 Calle 81 B
+204 Calle 81 C
+205 Calle 81 D
+206 Calle 81A
+207 Calle 82
+208 Calle 82 B
+209 Calle 82 Bis
+210 Calle 82A
+211 Calle 83
+212 Calle 83A
+213 Calle 83B
+214 Calle 83C
+215 Calle 84
+216 Calle 84A
+217 Calle 84B
+218 Calle 84C
+219 Calle 84D
+220 Calle 84E
+221 Calle 85
+222 Calle 85 Bis
+223 Calle 86
+224 Calle 87
+225 Calle 88
+226 Calle 89
+227 Calle 9
+228 Calle 9 Bis
+229 Calle 90
+230 Calle Cuccolo
+231 Calleja Juan Prossi
+232 Camino General Belgrano
+233 Camino Gobernador Vergara
+234 Camino Parque Centenario
+235 Circuito Aeróbico Jorge Kistenmacher
+236 Colectora Antártida Argentina
+237 Colectora Avenida 13
+238 Corredor universitario
+239 Diagonal 105
+240 Diagonal 106
+241 Diagonal 107
+242 Diagonal 108
+243 Diagonal 109
+244 Diagonal 11
+245 Diagonal 110
+246 Diagonal 111
+247 Diagonal 112
+248 Diagonal 113
+249 Diagonal 114
+250 Diagonal 11A
+251 Diagonal 11B
+252 Diagonal 73
+253 Diagonal 74
+254 Diagonal 75
+255 Diagonal 76
+256 Diagonal 77
+257 Diagonal 78
+258 Diagonal 79
+259 Diagonal 80
+260 Diagonal 93
+261 Diagonal 94
+262 Diagonal 95
+263 Diagonal 96
+264 Doctor Alejandro Fleming
+265 Humanidades
+266 Iglesia San Benjamín
+267 Parque Juan Vucetich
+268 Pasaje Perito Francisco Pascasio Moreno
+269 Pasaje Profesor Doctor Mario Egidio Teruggi
+270 Plaza 19 de Noviembre
+271 Plaza Adolfo Alsina
+272 Plaza Almirante Guillermo Brown
+273 Plaza Dardo Rocha
+274 Plaza Domingo Matheu
+275 Plaza España
+276 Plaza General José de San Martín
+277 Plaza General Martín Miguel de Güemes
+278 Plaza General Olazábal
+279 Plaza Italia
+280 Plaza Juan D. Perón
+281 Plaza Juan José Paso
+282 Plaza Mariano Moreno
+283 Plaza Miguel de Azcuénaga
+284 Plaza Máximo Paz
+285 Plaza Presidente Domingo Faustino Sarmiento
+286 Plaza Valentín y Adolfo Alsina
+287 Presidente Hipólito Yrigoyen
+288 Reforma Universitaria
+289 Rotonda Avenida Iraola y Avenida Centenario
+290 Calle 32 Bis
+291 Calle 33 Bis
+292 Calle 34 Bis
+293 Calle 35 Bis
+294 Calle 36 Bis
+295 Calle 38 Bis
