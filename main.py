@@ -34,9 +34,16 @@ def read_time(file_name):
     print(1)
 
 
-# TODO
 def distance(n1, n2):
-    print(1)
+    x1 = n1[1]
+    y1 = n1[0]
+
+    x2 = n2[1]
+    y2 = n2[0]
+
+    d = ((x2-x1)**2+(y2-y1)**2)**(1/2)
+    dm = d * 10**5
+    return dm
 
 
 # TODO
