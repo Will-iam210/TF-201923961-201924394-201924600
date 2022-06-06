@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 def read_streets(file_name):
     streets = []
     try:
@@ -29,9 +32,21 @@ def read_nodes(file_name):
 
     return nodes
 
+
 # TODO
 def read_time(file_name):
-    print(1)
+    try:
+        file_time = open(file_name)
+        line = file_time.readline()
+        hour = [int(h) for h in line.split(":")]
+        time = hour[0]
+    except FileNotFoundError:
+        date = datetime.utcnow()
+        line = date.time().strftime("%H:%M:%S")
+        hour = [int(h) for h in line.split(":")]
+        time = hour[0]-5
+
+    return time
 
 
 def distance(n1, n2):
@@ -41,8 +56,8 @@ def distance(n1, n2):
     x2 = n2[1]
     y2 = n2[0]
 
-    d = ((x2-x1)**2+(y2-y1)**2)**(1/2)
-    dm = d * 10**5
+    d = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** (1 / 2)
+    dm = d * 10 ** 5
     return dm
 
 
