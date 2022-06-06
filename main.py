@@ -29,8 +29,22 @@ def read_nodes(file_name):
 
     return nodes
 
+# TODO
+def read_time(file_name):
+    print(1)
 
-def create_adjacency_list(file_name, n):
+
+# TODO
+def distance(n1, n2):
+    print(1)
+
+
+# TODO
+def traffic(n1, n2, time):
+    print(1)
+
+
+def create_adjacency_list(file_name, nodes, n, time):
     a_list = [[] for _ in range(n)]
     try:
         file = open(file_name)
@@ -39,7 +53,13 @@ def create_adjacency_list(file_name, n):
             line = line.split()
             n_i = int(line[0])
             n_j = int(line[1])
-            a_list[n_i].append(n_j)
+
+            dist = distance(nodes[n_i], nodes[n_j])
+            traffic = traffic(nodes[n_i], nodes[n_j], time)
+
+            w = dist * traffic
+
+            a_list[n_i].append(tuple(n_j, w))
 
     except FileNotFoundError:
         print("File not found.")
@@ -60,9 +80,10 @@ def write_adjacency_list(_a_list):
 
 
 if __name__ == '__main__':
+    _time = read_time("Data/time.txt")
     _streets = read_streets("Data/streets.txt")
     _nodes = read_nodes("Data/nodes.txt")
-    _a_list = create_adjacency_list("Data/edges.txt", len(_nodes))
+    _a_list = create_adjacency_list("Data/edges.txt", _nodes, len(_nodes), _time)
 
     for i, a_list in enumerate(_a_list):
         print(i, a_list)
