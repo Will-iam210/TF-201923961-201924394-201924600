@@ -1,4 +1,5 @@
 from datetime import datetime
+import math
 
 
 def read_streets(file_name):
@@ -22,9 +23,13 @@ def read_nodes(file_name):
         lines = file.readlines()
         for line in lines:
             line = line.split()
-            n = len(line)
             temp_list = []
-            for i in range(n):
+
+            temp_list.append(float(line[0]))
+            temp_list.append(float(line[1]))
+
+            n = len(line)
+            for i in range(2, n):
                 temp_list.append(int(line[i]))
             nodes.append(tuple(temp_list))
     except FileNotFoundError:
@@ -33,7 +38,6 @@ def read_nodes(file_name):
     return nodes
 
 
-# TODO
 def read_time(file_name):
     try:
         file_time = open(file_name)
@@ -61,9 +65,27 @@ def distance(n1, n2):
     return dm
 
 
-# TODO
 def traffic(n1, n2, time):
-    print(1)
+    x1 = (n1[1] + 57.9545857472616) * 20 / 0.0402401395890024
+    y1 = (n1[0] + 34.9213913491353) * 20 / 0.0402401395890024
+
+    x2 = (n2[1] + 57.9545857472616) * 20 / 0.0402401395890024
+    y2 = (n2[0] + 34.9213913491353) * 20 / 0.0402401395890024
+
+
+    x_edge = (x1 + x2) / 2
+    y_edge = (y1 + y2) / 2
+
+    
+    m = 0
+    if time < 15:
+        m = -0.90278 * time ** 3 + 19.09722 * time ** 2 - 70 * time + 150
+    else:
+        m = -9.44444 * time ** 2 + 346.11111 * time - 2716.66667
+
+
+    traffic_factor = m * (math.sin(0.06 * (x_edge ** 2 + y_edge ** 2)) / (x_edge ** 2 + y_edge ** 2 + 40)) + 1 + m / 100
+    return traffic_factor
 
 
 def create_adjacency_list(file_name, nodes, n, time):
@@ -77,11 +99,12 @@ def create_adjacency_list(file_name, nodes, n, time):
             n_j = int(line[1])
 
             dist = distance(nodes[n_i], nodes[n_j])
-            traffic = traffic(nodes[n_i], nodes[n_j], time)
+            traffic_factor = traffic(nodes[n_i], nodes[n_j], time)
 
-            w = dist * traffic
+            w = dist * traffic_factor
+            w = math.trunc(pow(10, 5) * w) / pow(10, 5)
 
-            a_list[n_i].append(tuple(n_j, w))
+            a_list[n_i].append((n_j, w))
 
     except FileNotFoundError:
         print("File not found.")
@@ -93,11 +116,11 @@ def write_adjacency_list(_a_list):
     file = open("Data/adjacency_list.txt", "w")
     for i, a_list in enumerate(_a_list):
         file.write(str(i) + " [")
-        for j, u in enumerate(a_list):
+        for j, (u, w) in enumerate(a_list):
             if j == len(a_list) - 1:
-                file.write(str(u))
+                file.write("(" + str(u) + ", " + str(w) + ")")
             else:
-                file.write(str(u) + ", ")
+                file.write("(" + str(u) + ", " + str(w) + ")" + ", ")
         file.write("]\n")
 
 
