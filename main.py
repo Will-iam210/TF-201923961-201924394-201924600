@@ -1,6 +1,29 @@
 from datetime import datetime
 import math
+import heapq as hq
 
+
+def dijkstra(a_list, s):
+    n = len(a_list)
+    visited = [False] * n
+    path = [-1] * n
+    cost = [math.inf] * n
+
+    cost[s] = 0
+    pqueue = [(0, s)]
+    while pqueue:
+        g, u = hq.heappop(pqueue)
+        if not visited[u]:
+            visited[u] = True
+            for v, w in a_list[u]:
+                if not visited[v]:
+                    f = g + w
+                    if f < cost[v]:
+                        cost[v] = f
+                        path[v] = u
+                        hq.heappush(pqueue, (f, v))
+
+    return path, cost
 
 def read_streets(file_name):
     streets = []
