@@ -25,6 +25,16 @@ def dijkstra(a_list, s):
 
     return path, cost
 
+
+def path_to_trajectory(path, start):
+    t = start
+    trajectory = [start]
+    while path[t] != -1:
+        t = path[t]
+        trajectory.append(t)
+    return trajectory
+
+
 def read_streets(file_name):
     streets = []
     try:
