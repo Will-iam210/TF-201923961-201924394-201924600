@@ -35,6 +35,37 @@ def path_to_trajectory(path, start):
     return trajectory
 
 
+def k_shortest_paths(a_list, start, target, k):
+    path, cost = dijkstra(a_list, target)
+
+    trajectory = path_to_trajectory(path, start)
+    n = len(trajectory)
+    paths = [(cost[start], trajectory)]
+
+    for i in range(n - 1):
+        for v, w in a_list[trajectory[i]]:
+            temp_path = []
+            _path = path_to_trajectory(path, v)
+            for j in range(i + 1):
+                temp_path.append(trajectory[j])
+            if i >= 1 and v == trajectory[i - 1]:
+                continue
+            elif v != trajectory[i + 1] and trajectory[i] not in _path:
+                f = cost[trajectory[0]] - cost[trajectory[i]]
+                f = cost[v] + w + f
+                temp_path = temp_path + _path
+                paths.append((f, temp_path))
+
+    paths.sort()
+    n = len(paths)
+    if n < k:
+        k = n
+
+    paths = paths[:k]
+
+    return paths
+
+
 def read_streets(file_name):
     streets = []
     try:
@@ -105,17 +136,14 @@ def traffic(n1, n2, time):
     x2 = (n2[1] + 57.9545857472616) * 20 / 0.0402401395890024
     y2 = (n2[0] + 34.9213913491353) * 20 / 0.0402401395890024
 
-
     x_edge = (x1 + x2) / 2
     y_edge = (y1 + y2) / 2
-
     
     m = 0
     if time < 15:
         m = -0.90278 * time ** 3 + 19.09722 * time ** 2 - 70 * time + 150
     else:
         m = -9.44444 * time ** 2 + 346.11111 * time - 2716.66667
-
 
     traffic_factor = m * (math.sin(0.06 * (x_edge ** 2 + y_edge ** 2)) / (x_edge ** 2 + y_edge ** 2 + 40)) + 1 + m / 100
     return traffic_factor
@@ -163,7 +191,20 @@ if __name__ == '__main__':
     _nodes = read_nodes("Data/nodes.txt")
     _a_list = create_adjacency_list("Data/edges.txt", _nodes, len(_nodes), _time)
 
+    print("ADJACENCY LIST:")
     for i, a_list in enumerate(_a_list):
         print(i, a_list)
 
-    write_adjacency_list(_a_list)
+    start = 1025
+    target = 1457
+    k = 3
+
+    paths = k_shortest_paths(_a_list, start, target, k)
+    n = len(paths)
+
+    print(f"\n{k} shortest paths from node {start} to {target} with cost:")
+    for i in range(n):
+        f, _path = paths[i]
+        print(f"{f}, {_path}")
+
+    # write_adjacency_list(_a_list)
