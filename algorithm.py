@@ -1,7 +1,8 @@
 from datetime import datetime
 import math
 import heapq as hq
-
+import json
+from operator import le
 
 def dijkstra(a_list, s):
     n = len(a_list)
@@ -35,8 +36,8 @@ def path_to_trajectory(path, start):
     return trajectory
 
 
-def k_shortest_paths(a_list, start, target, k):
-    path, cost = dijkstra(a_list, target)
+def k_shortest_paths(a_list, inversed_a_list, start, target, k):
+    path, cost = dijkstra(inversed_a_list, target)
 
     trajectory = path_to_trajectory(path, start)
     n = len(trajectory)
@@ -59,7 +60,9 @@ def k_shortest_paths(a_list, start, target, k):
     paths.sort()
     n = len(paths)
     if n < k:
-        k = n
+        last_path = paths[n - 1]
+        for i in range(n, k):
+            paths.append(last_path)
 
     paths = paths[:k]
 
@@ -82,6 +85,7 @@ def read_streets(file_name):
 
 def read_nodes(file_name):
     nodes = []
+    loc = []
     try:
         file = open(file_name)
         lines = file.readlines()
@@ -91,15 +95,19 @@ def read_nodes(file_name):
 
             temp_list.append(float(line[0]))
             temp_list.append(float(line[1]))
+            loc.append((temp_list[0], temp_list[1]))
+
+            temp_list = []
 
             n = len(line)
             for i in range(2, n):
                 temp_list.append(int(line[i]))
-            nodes.append(tuple(temp_list))
+            nodes.append(temp_list)
+            
     except FileNotFoundError:
         print("File not found.")
 
-    return nodes
+    return nodes, loc
 
 
 def read_time(file_name):
@@ -142,15 +150,18 @@ def traffic(n1, n2, time):
     m = 0
     if time < 15:
         m = -0.90278 * time ** 3 + 19.09722 * time ** 2 - 70 * time + 150
-    else:
+    elif time <= 24:
         m = -9.44444 * time ** 2 + 346.11111 * time - 2716.66667
+    else:
+        m = 0
 
     traffic_factor = m * (math.sin(0.06 * (x_edge ** 2 + y_edge ** 2)) / (x_edge ** 2 + y_edge ** 2 + 40)) + 1 + m / 100
     return traffic_factor
 
 
-def create_adjacency_list(file_name, nodes, n, time):
+def create_adjacency_list(file_name, loc, n, time):
     a_list = [[] for _ in range(n)]
+    inversed_a_list = [[] for _ in range(n)]
     try:
         file = open(file_name)
         lines = file.readlines()
@@ -159,18 +170,19 @@ def create_adjacency_list(file_name, nodes, n, time):
             n_i = int(line[0])
             n_j = int(line[1])
 
-            dist = distance(nodes[n_i], nodes[n_j])
-            traffic_factor = traffic(nodes[n_i], nodes[n_j], time)
+            dist = distance(loc[n_i], loc[n_j])
+            traffic_factor = traffic(loc[n_i], loc[n_j], time)
 
             w = dist * traffic_factor
             w = math.trunc(pow(10, 5) * w) / pow(10, 5)
 
             a_list[n_i].append((n_j, w))
+            inversed_a_list[n_j].append((n_i, w))
 
     except FileNotFoundError:
         print("File not found.")
 
-    return a_list
+    return a_list, inversed_a_list
 
 
 def write_adjacency_list(_a_list):
@@ -184,27 +196,3 @@ def write_adjacency_list(_a_list):
                 file.write("(" + str(u) + ", " + str(w) + ")" + ", ")
         file.write("]\n")
 
-
-if __name__ == '__main__':
-    _time = read_time("Data/time.txt")
-    _streets = read_streets("Data/streets.txt")
-    _nodes = read_nodes("Data/nodes.txt")
-    _a_list = create_adjacency_list("Data/edges.txt", _nodes, len(_nodes), _time)
-
-    print("ADJACENCY LIST:")
-    for i, a_list in enumerate(_a_list):
-        print(i, a_list)
-
-    start = 1025
-    target = 1457
-    k = 3
-
-    paths = k_shortest_paths(_a_list, start, target, k)
-    n = len(paths)
-
-    print(f"\n{k} shortest paths from node {start} to {target} with cost:")
-    for i in range(n):
-        f, _path = paths[i]
-        print(f"{f}, {_path}")
-
-    # write_adjacency_list(_a_list)
