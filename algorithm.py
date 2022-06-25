@@ -210,3 +210,67 @@ def get_node_from_streets(corner, streets, nodes):
         return nodes.index(temp)
 
     return -1
+
+def graph():
+    #intersecciones (nodos)
+    _time = read_time("Data/time.txt")
+    _nodes, _loc = read_nodes("Data/nodes.txt")
+
+    #grafo (al)
+    _a_list, _inversed_a_list = create_adjacency_list("Data/edges.txt", _loc, len(_nodes), _time)
+
+    n = len(_loc)
+    temp_loc = []
+
+    for i in range(n):
+        x1 = (_loc[i][1] + 57.9545857472616) * 400 / 0.0402401395890024
+        y1 = (_loc[i][0] + 34.9213913491353) * 400 / 0.0402401395890024
+        temp_loc.append((x1 + 500 , y1 * -1 + 300))
+
+    response = {"loc": temp_loc, "g": _a_list}
+
+    return json.dumps(response)
+
+
+def paths():
+    _time = read_time("Data/time.txt")
+    _streets = read_streets("Data/streets.txt")
+    _nodes, _loc = read_nodes("Data/nodes.txt")
+    _a_list, _inversed_a_list = create_adjacency_list("Data/edges.txt", _loc, len(_nodes), _time)
+
+    start_corner = ["Calle 39", "Calle 9"]
+    target_corner = ["Calle 12", "Calle 50", "Diagonal 74"]
+
+    start = get_node_from_streets(start_corner, _streets, _nodes)
+    target = get_node_from_streets(target_corner, _streets, _nodes)
+
+    k = 3
+
+    paths = k_shortest_paths(_a_list, _inversed_a_list, start, target, k)
+
+    n = len(_loc)
+    temp_loc = []
+
+    for i in range(n):
+        x1 = (_loc[i][1] + 57.9545857472616) * 400 / 0.0402401395890024
+        y1 = (_loc[i][0] + 34.9213913491353) * 400 / 0.0402401395890024
+        temp_loc.append((x1 + 500 , y1 * -1 + 300))
+
+    _, bestpath = paths[0]
+    _, path1 = paths[1]
+    _, path2 = paths[2]
+    Bestpath=[]
+    Path1=[]
+    Path2=[]
+    for i in bestpath:
+        Bestpath.append(temp_loc[i])
+
+    for i in path1:
+        Path1.append(temp_loc[i])
+
+    for i in path2:
+        Path2.append(temp_loc[i])
+
+    response = {"bestpath": Bestpath, "path1": Path1, "path2": Path2}
+
+    return json.dumps(response)
