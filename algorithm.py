@@ -196,3 +196,17 @@ def write_adjacency_list(_a_list):
                 file.write("(" + str(u) + ", " + str(w) + ")" + ", ")
         file.write("]\n")
 
+
+def get_node_from_streets(corner, streets, nodes):
+    temp = []
+    
+    for s in corner:
+        if s in streets:
+            temp.append(streets.index(s))
+
+    temp.sort()
+
+    if temp in nodes:
+        return nodes.index(temp)
+
+    return -1
