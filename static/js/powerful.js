@@ -1,77 +1,117 @@
-(async function() {
-	console.log("Toda la alegría del mundo.");
+(async function () {
+  console.log("Toda la alegría del mundo.");
 
-	// Data
+  // Data
+  const urlgraph = "graph";
+  const graph = await d3.json(urlgraph);
 
-	const urlgraph = "graph";
-	const urlpaths = "paths"
-	const graph    = await d3.json(urlgraph);
-	const paths    = await d3.json(urlpaths);
+  const s = Math.floor(Math.random() * graph.g.length);
+  const t = Math.floor(Math.random() * graph.g.length);
 
-	// config
+  //const s = 282;
+  //const t = 125;
 
-	const margin = {
-		top:    10,
-		right:  10,
-		bottom: 10,
-		left:   10
-	};
-	const box    = {
-		width:   990,
-		height:  695,
-		bwidth:  990 - margin.left - margin.right,
-	  bheight: 695 - margin.top - margin.bottom
-	};
+  const urlpaths = `paths/${s}/${t}`
+  const paths = await d3.json(urlpaths);
 
-	// Canvas y elementos
+  // config
 
-	const svg = d3
-		.select("#box")
-		.append("svg")
-		.attr("width", box.width)
-		.attr("height", box.height);
+  const width = document.querySelector("#box").clientWidth;
 
-	const g = svg.append("g")
-		.attr("transform", `translate(${margin.left}, ${margin.top})`);
+  const extentx = d3.extent(graph.loc, d => d[0]);
+  const extenty = d3.extent(graph.loc, d => d[1]);
+  const w = extentx[0] - extentx[1];
+  const h = extenty[0] - extenty[1];
 
-	const [lon, lat] = [d => d[0], d => d[1]];
+  const margin = {
+    top: 10,
+    right: 10,
+    bottom: 10,
+    left: 10
+  };
+  
+  const box = {
+    width: width,
+    height: width * h / w,
+  };
 
-	const lineGenerator = d3.line().x(lon).y(lat);
+  // Canvas y elementos
 
-	const line2 = g.append("path")
-		.attr("d", lineGenerator(paths.path1))
-		.attr("fill", "none")
-		.attr("stroke", "#273043")
-		.attr("stroke-width", 1.5)
-		.attr("opacity", 1);
+  const ctx = document.querySelector("#canvitas").getContext("2d");
+  if (!ctx) {
+    console.log("something terribly wrong is going on here");
+    return;
+  }
+  ctx.canvas.width = box.width;
+  ctx.canvas.height = box.height;
 
-	const line3 = g.append("path")
-		.attr("d", lineGenerator(paths.path2))
-		.attr("fill", "none")
-		.attr("stroke", "#E83151")
-		.attr("stroke-width", 1)
-		.attr("opacity", 1);
+  scalex = d3.scaleLinear()
+    .domain(extentx)
+    .range([margin.left, box.width - margin.right]);
+  scaley = d3.scaleLinear()
+    .domain(extenty)
+    .range([box.height - margin.top, margin.bottom]);
 
-	const line = g.append("path")
-		.attr("d", lineGenerator(paths.bestpath))
-		.attr("fill", "none")
-		.attr("stroke", "#F5A65B")
-		.attr("stroke-width", 0.5)
-		.attr("opacity", 1);
+  const [lon, lat] = [d => scalex(d[0]), d => scaley(d[1])];
+  const x = d => lon(d);
+  const y = d => lat(d);
 
-	const dots = g.selectAll("circle")
-		.data(graph.loc)
-		.enter()
-		.append("circle")
-		.attr("cx", lon)
-		.attr("cy", lat)
-		.attr("r", 2.0)
-		.attr("fill", "Black")
-		.attr("opacity", 1);
+  function render(points, color, lw) {
+    ctx.lineWidth = lw;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    for (const point of points) {
+      ctx.beginPath();
+      ctx.strokeStyle = color(point);
+      ctx.moveTo(x(point[0]), y(point[0]));
+      ctx.lineTo(x(point[1]), y(point[1]));
+      ctx.stroke();
+    }
+  }
 
-	// Funciones y eventos
+  const edges = [];
+  for (const u in graph.g) {
+    for (const [v, w] of graph.g[u]) {
+      edges.push([graph.loc[u], graph.loc[v], w])
+    }
+  }
+  const extentw = d3.extent(edges, d => d[2]);
+  const scalecolor = d3.scaleLinear()
+    .domain(extentw)
+    .range([100, 0]);
+  const color = d => `hsla(${scalecolor(d[2] * 3)}, 100%, 50%, 0.5)`
+  render(edges, color, 2)
+  
+  function dealWithPath(path, color) {
+    let head = t;
+    points = []
+    while (path[head] != -1) {
+      points.push([graph.loc[head], graph.loc[path[head]]]);
+      head = path[head];
+    }
+    render(points, d => color, 6)
+  }
+  
+  //dealWithPath(paths.path2, "rgba(220,  20, 60, 0.5)")
+  //dealWithPath(paths.path1, "rgba(255, 165, 0, 0.5)")
+  //dealWithPath(paths.bestpath, "rgba(0, 128, 0, 0.5)")
 
-	// Empezamos
+  dealWithPath(paths.path2, "rgba(118, 146, 255)")
+  dealWithPath(paths.path1, "rgba(100, 111, 75)")
+  dealWithPath(paths.bestpath, "rgba(1, 22, 79)")
+
+  ctx.fillStyle = "LimeGreen";
+  ctx.fillRect(x(graph.loc[s]) - 5, y(graph.loc[s]) - 5, 10, 10)
+  ctx.strokeStyle = "Green";
+  ctx.strokeRect(x(graph.loc[s]) - 5, y(graph.loc[s]) - 5, 10, 10)
+  ctx.fillStyle = "Orange";
+  ctx.fillRect(x(graph.loc[t]) - 5, y(graph.loc[t]) - 5, 10, 10)
+  ctx.strokeStyle = "OrangeRed";
+  ctx.strokeRect(x(graph.loc[t]) - 5, y(graph.loc[t]) - 5, 10, 10)
+
+  // Funciones y eventos
+
+  // Empezamos
 
 })();
 
