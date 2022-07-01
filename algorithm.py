@@ -155,7 +155,12 @@ def traffic(n1, n2, time):
     else:
         m = 0
 
-    traffic_factor = m * (math.sin(0.06 * (x_edge ** 2 + y_edge ** 2)) / (x_edge ** 2 + y_edge ** 2 + 40)) + 1 + m / 100
+
+    #n = 0.0000487804878 * m + 0.0356097560976 0.04 - 0.06
+    #n = 0.00007317077317 * m + 0.0534146341463 0.06 - 0.09
+    n = 0.0002195121951 * m + 0.040243902439
+
+    traffic_factor = m * (math.sin(n * (x_edge ** 2 + y_edge ** 2)) / (x_edge ** 2 + y_edge ** 2 + 40)) + 1 + m / 100
     return traffic_factor
 
 
@@ -211,6 +216,7 @@ def get_node_from_streets(corner, streets, nodes):
 
     return -1
 
+
 def graph():
     #intersecciones (nodos)
     _time = read_time("Data/time.txt")
@@ -223,16 +229,14 @@ def graph():
     temp_loc = []
 
     for i in range(n):
-        x1 = (_loc[i][1] + 57.9545857472616) * 400 / 0.0402401395890024
-        y1 = (_loc[i][0] + 34.9213913491353) * 400 / 0.0402401395890024
-        temp_loc.append((x1 + 500 , y1 * -1 + 300))
+        x1 = _loc[i][1]
+        y1 = _loc[i][0]
+        temp_loc.append((x1 , y1))
 
-    response = {"loc": temp_loc, "g": _a_list}
+    return json.dumps({"loc": temp_loc, "g": _a_list})
+# asd
 
-    return json.dumps(response)
-
-
-def paths():
+def paths(s, t):
     _time = read_time("Data/time.txt")
     _streets = read_streets("Data/streets.txt")
     _nodes, _loc = read_nodes("Data/nodes.txt")
@@ -241,8 +245,11 @@ def paths():
     start_corner = ["Calle 39", "Calle 9"]
     target_corner = ["Calle 12", "Calle 50", "Diagonal 74"]
 
-    start = get_node_from_streets(start_corner, _streets, _nodes)
-    target = get_node_from_streets(target_corner, _streets, _nodes)
+    #start = get_node_from_streets(start_corner, _streets, _nodes)
+    #target = get_node_from_streets(target_corner, _streets, _nodes)
+
+    start = s
+    target = t
 
     k = 3
 
@@ -259,18 +266,34 @@ def paths():
     _, bestpath = paths[0]
     _, path1 = paths[1]
     _, path2 = paths[2]
-    Bestpath=[]
-    Path1=[]
-    Path2=[]
-    for i in bestpath:
-        Bestpath.append(temp_loc[i])
 
-    for i in path1:
-        Path1.append(temp_loc[i])
+    #Bestpath=[-1] * n
+    #Path1=[]
+    #Path2=[]
+    #for i in bestpath:
+    #    Bestpath.append(_loc[i])
 
-    for i in path2:
-        Path2.append(temp_loc[i])
+    #for i in path1:
+    #    Path1.append(_loc[i])
 
-    response = {"bestpath": Bestpath, "path1": Path1, "path2": Path2}
+    #for i in path2:
+    #    Path2.append(_loc[i])
 
-    return json.dumps(response)
+    Bestpath=[-1] * n
+    Path1=[-1] * n
+    Path2=[-1] * n
+
+    for i, j in enumerate(bestpath):
+        if i != 0:
+            Bestpath[j] = bestpath[i - 1]
+
+    for i, j in enumerate(path1):
+        if i != 0:
+            Path1[j] = path1[i - 1]
+
+    for i, j in enumerate(path2):
+        if i != 0:
+            Path2[j] = path2[i - 1]
+
+
+    return json.dumps({"bestpath": Bestpath, "path1": Path1, "path2": Path2})
